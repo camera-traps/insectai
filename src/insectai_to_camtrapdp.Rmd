@@ -22,7 +22,9 @@ library(lubridate)
 # Import data
 
 ```{r}
-data_raw <- read.csv(here::here("data", "raw", ...))
+project_name <- "my_project"
+file_name <- "my_file.csv"
+data_raw <- read.csv(here::here("data", "raw", project_name, file_name))
 ```
 
 # Create resources
@@ -209,7 +211,7 @@ insectai$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 # Write Data Package
 
 ```{r}
-frictionless::write_package(insectai, here::here("data", "interim", ...))
+frictionless::write_package(insectai, here::here("data", "interim", project_name))
 ```
 
 # Read with camtrapdp
@@ -217,11 +219,11 @@ frictionless::write_package(insectai, here::here("data", "interim", ...))
 This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
 
 ```{r}
-insectai_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", ... , "datapackage.json"))
+insectai_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", project_name, "datapackage.json"))
 ```
 
 # Write Camtrap DP
 
 ```{r}
-camtrapdp::write_camtrapdp(insectai_dp, here::here("data", "processed", ... ))
+camtrapdp::write_camtrapdp(insectai_dp, here::here("data", "processed", project_name))
 ```
