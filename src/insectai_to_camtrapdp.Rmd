@@ -136,7 +136,7 @@ insectai <-
   add_resource(resource_name = "observations", data = observations) %>%
   append(c(
     name = "camtrap-dp-insectai-example-dataset", # Required
-    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0.1/camtrap-dp-profile.json", # Required (incorrect, hack to use read_camtrapdp())
+    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     title = NULL,
