@@ -29,7 +29,6 @@ The repository structure is based on [Cookiecutter Data Science](http://drivenda
 │   ├─ insectai_to_camtrapdp.Rmd     : Empty source script to copy
 │   └─ project_name                  : Folder per project
 │       └─ insectai_to_camtrapdp.Rmd : Source script per project
-│
 └─ data
     └─ project_name                  : Folder per project
         ├─ raw                       : Source data, input for mapping script

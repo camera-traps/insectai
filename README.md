@@ -24,7 +24,6 @@ manually.
     │   ├─ insectai_to_camtrapdp.Rmd     : Empty source script to copy
     │   └─ project_name                  : Folder per project
     │       └─ insectai_to_camtrapdp.Rmd : Source script per project
-    │
     └─ data
         └─ project_name                  : Folder per project
             ├─ raw                       : Source data, input for mapping script
