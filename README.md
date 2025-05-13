@@ -59,3 +59,4 @@ follow the guidelines below.
   guidelines](https://docs.google.com/document/d/1L6m0Z5kQDzlh2m68XGI1M6btXrI-xApqqgOhlzgxhRY/edit?tab=t.0)
 - [InsectAI-demo with example data
   set](https://github.com/cpadubidri/insectAI-demo)
+- [Mapping bioacoustic data to Camtrap DP](https://github.com/camera-traps/bioacoustics)
