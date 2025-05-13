@@ -1,0 +1,228 @@
+---
+title: "insectai_to_camtrapdp"
+author: 
+- "Sanne Govaert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(here)
+library(dplyr)
+library(frictionless)
+library(camtrapdp)
+```
+
+# Import data
+
+```{r}
+project_name <- "my_project"
+file_name <- "my_file.csv"
+data <- read.csv(here::here("data", "raw", project_name, file_name))
+```
+
+# Create resources
+
+## Create deployments resource
+
+```{r}
+deployments <-
+  data %>% 
+  dplyr::mutate(
+    deploymentID = NULL, # Required
+    locationID = NULL,
+    locationName = NULL,
+    latitude = NULL, # Required
+    longitude = NULL, # Required
+    coordinateUncertainty = NULL,
+    deploymentStart = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    deploymentEnd = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    setupBy = NULL,
+    cameraID = NULL,
+    cameraModel = NULL,
+    cameraDelay = NULL,
+    cameraHeight = NULL,
+    cameraDepth = NULL,
+    cameraTilt = NULL,
+    cameraHeading = NULL,
+    detectionDistance = NULL,
+    timestampIssues = NULL,
+    baitUse = NULL,
+    featureType = NULL,
+    habitat = NULL,
+    deploymentGroups = NULL,
+    deploymentTags = NULL,
+    deploymentComments = NULL,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(deploymentID)
+```
+
+## Create media resource
+
+```{r}
+media <-
+  data %>% 
+  dplyr::mutate(
+    mediaID = NULL, # Required
+    deploymentID = NULL, # Required
+    captureMethod = NULL,
+    timestamp = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    filePath = NULL, # Required
+    filePublic = FALSE, # Required
+    fileName = NULL,
+    fileMediatype = NULL, # Required
+    exifData = NULL,
+    favorite = NULL,
+    mediaComments = NULL,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(mediaID) %>%
+  dplyr::distinct()
+```
+
+## Create observations resource
+
+```{r}
+observations <-
+  data %>% 
+  dplyr::mutate(
+    observationID = NULL, # Required
+    deploymentID = NULL, # Required
+    mediaID = NULL,
+    eventID = NA, # If empty, set to NA to be able to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
+    eventStart = NULL, # Required
+    eventEnd = NULL, # Required
+    observationLevel = NULL, # Required
+    observationType = NULL, # Required 
+    cameraSetupType = NULL,
+    scientificName = NULL,  # Required
+    count = NULL,
+    lifeStage = NULL,
+    sex = NULL,
+    behavior = NULL,
+    individualID = NULL,
+    individualPositionRadius = NULL,
+    individualPositionAngle = NULL,
+    individualSpeed = NULL,
+    bboxX = NULL,
+    bboxY = NULL,
+    bboxWidth = NULL,
+    bboxHeight = NULL,
+    classificationMethod = NULL,
+    classifiedBy = NULL,
+    classificationTimestamp = NULL,
+    classificationProbability = NULL,
+    observationTags = .data$tags,
+    observationComments = NULL,
+    .keep = "none"
+  ) %>% 
+  dplyr::arrange(observationID)
+```
+
+# Create data package
+
+```{r}
+insectai <-
+  frictionless::create_package() %>%
+  add_resource(resource_name = "deployments", data = deployments) %>%
+  add_resource(resource_name = "media", data = media) %>%
+  add_resource(resource_name = "observations", data = observations) %>%
+  append(c(
+    name = "camtrap-dp-insectai-example-dataset", # Required
+    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
+    id = NULL,
+    created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
+    title = NULL,
+    description = NULL,
+    version = "1.0",
+    keywords = NULL,
+    image = NULL,
+    homepage = NULL,
+    sources = NULL,
+    bibliographicCitation = NULL,
+    coordinatePrecision = NULL,
+    spatial = NULL, # Required, but keep this empty, this comes later
+    temporal = NULL, # Required, but keep this empty, this comes later
+    taxonomic = NULL, # Required, but keep this empty, this comes later
+    relatedIdentifiers = NULL,
+    references = NULL
+  )) %>%
+  frictionless::create_package()
+
+insectai$contributors <- list( # Required
+  list(
+    title = NULL,
+    email = NULL,
+    path = NULL,
+    role = NULL,
+    organization = NULL
+  )
+)
+
+insectai$licenses <- list(
+  list(
+    name = "CC0-1.0",
+    scope = "data" # Required
+  ),
+  list(
+    path = "http://creativecommons.org/licenses/by/4.0/",
+    scope = "media" # Required
+  )
+)
+
+insectai$project <- list( # Required
+  # id = "",
+  title = NULL, # Required
+  # acronym = "",
+  description = NULL,
+  protocolType = NULL, # Required
+  samplingDesign = NULL, # Required
+  path = NULL,
+  captureMethod = NULL, # Required
+  individualAnimals = NULL, # Required
+  observationLevel = NULL # Required
+)
+```
+
+## Create taxonomy
+
+```{r}
+map_taxonomy <- function(taxonomy) {
+  list(
+    scientificName = taxonomy$scientificName, # Adapt this!
+    vernacularNames = list(
+      eng = taxonomy$EnglishName # Adapt this!
+      )
+  )
+}
+```
+
+```{r}
+taxonomy_list <- apply(taxonomy, 1, as.list) # First create taxonomy df, then adapt this!
+insectai$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
+```
+
+# Write Data Package
+
+```{r}
+frictionless::write_package(insectai, here::here("data", "interim", project_name))
+```
+
+# Read with camtrapdp
+
+This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
+
+```{r}
+insectai_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", project_name, "datapackage.json"))
+```
+
+# Write Camtrap DP
+
+```{r}
+camtrapdp::write_camtrapdp(insectai_dp, here::here("data", "processed", project_name))
+```
