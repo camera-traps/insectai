@@ -37,7 +37,7 @@ This repository is open to contributions from the community. If you have
 an insectAI dataset that you would like to map to Camtrap DP, please
 follow the guidelines below.
 
-1.  Ask @sannegovaert to get access to this Github project.
+1.  Ask @sannegovaert to get access to this Github repo.
 2.  Create a branch for your project.
 3.  Create a folder in `src` with the name of your project.
 4.  Copy the `insectai_to_camtrapdp.Rmd` file to your project folder.
