@@ -37,18 +37,19 @@ This repository is open to contributions from the community. If you have
 an insectAI dataset that you would like to map to Camtrap DP, please
 follow the guidelines below.
 
-1.  Create a branch for your project.
-2.  Create a folder in `src` with the name of your project.
-3.  Copy the `insectai_to_camtrapdp.Rmd` file to your project folder.
-4.  Create a folder in `data` with the name of your project.
-5.  Copy your raw data to the `raw` folder.
-6.  Edit the `insectai_to_camtrapdp.Rmd` file to include your
+1.  Ask @sannegovaert to get access to this Github project.
+2.  Create a branch for your project.
+3.  Create a folder in `src` with the name of your project.
+4.  Copy the `insectai_to_camtrapdp.Rmd` file to your project folder.
+5.  Create a folder in `data` with the name of your project.
+6.  Copy your raw data to the `raw` folder.
+7.  Edit the `insectai_to_camtrapdp.Rmd` file to include your
     project-specific code.
-7.  Run the `insectai_to_camtrapdp.Rmd` file to generate the Camtrap DP
+8.  Run the `insectai_to_camtrapdp.Rmd` file to generate the Camtrap DP
     files.
-8.  Throughout all the previous steps: commit your changes and push to
+9.  Throughout all the previous steps: commit your changes and push to
     your branch. You don’t need to wait to commit until your finished.
-9.  Create a pull request to merge your changes into the main branch.
+10.  Create a pull request to merge your changes into the main branch.
 
 ## Relevant sources
 
