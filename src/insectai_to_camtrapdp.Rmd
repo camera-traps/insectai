@@ -185,9 +185,9 @@ insectai$project <- list( # Required
   protocolType = NULL, # Required
   samplingDesign = NULL, # Required
   path = NULL,
-  captureMethod = NULL, # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
+  captureMethod = NULL, # Required
   individualAnimals = NULL, # Required
-  observationLevel = NULL # Required | Bug, see https://github.com/frictionlessdata/frictionless-r/issues/276
+  observationLevel = NULL # Required
 )
 ```
 
@@ -196,16 +196,16 @@ insectai$project <- list( # Required
 ```{r}
 map_taxonomy <- function(taxonomy) {
   list(
-    scientificName = taxonomy$scientificName,
+    scientificName = taxonomy$scientificName, # Adapt this!
     vernacularNames = list(
-      eng = taxonomy$EnglishName
+      eng = taxonomy$EnglishName # Adapt this!
       )
   )
 }
 ```
 
 ```{r}
-taxonomy_list <- apply(taxonomy, 1, as.list)
+taxonomy_list <- apply(taxonomy, 1, as.list) # First create taxonomy df, then adapt this!
 insectai$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 ```
 
