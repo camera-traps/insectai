@@ -1,7 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Standardising metadata for insect images from camera traps and machine learning output <img src="logo/insectAI.svg" alt="InsectAI Logo" width="300"/>
+# Standardising metadata for insect images from camera traps and machine learning output 
+<img src="logo/insectAI.svg" alt="InsectAI Logo" width="300"/>
 
 ## Mapping InsectAI datasets to Camtrap DP
 
