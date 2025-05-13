@@ -13,10 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(here)
 library(dplyr)
-library(tidyr)
 library(frictionless)
 library(camtrapdp)
-library(lubridate)
 ```
 
 # Import data
