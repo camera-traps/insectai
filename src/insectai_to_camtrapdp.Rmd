@@ -24,7 +24,7 @@ library(lubridate)
 ```{r}
 project_name <- "my_project"
 file_name <- "my_file.csv"
-data_raw <- read.csv(here::here("data", "raw", project_name, file_name))
+data <- read.csv(here::here("data", "raw", project_name, file_name))
 ```
 
 # Create resources
@@ -33,7 +33,7 @@ data_raw <- read.csv(here::here("data", "raw", project_name, file_name))
 
 ```{r}
 deployments <-
-  data_raw %>% 
+  data %>% 
   dplyr::mutate(
     deploymentID = NULL, # Required
     locationID = NULL,
