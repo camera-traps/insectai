@@ -41,8 +41,8 @@ deployments <-
     latitude = NULL, # Required
     longitude = NULL, # Required
     coordinateUncertainty = NULL,
-    deploymentStart = NULL, # Required
-    deploymentEnd = NULL, # Required
+    deploymentStart = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    deploymentEnd = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
     setupBy = NULL,
     cameraID = NULL,
     cameraModel = NULL,
@@ -73,7 +73,7 @@ media <-
     mediaID = NULL, # Required
     deploymentID = NULL, # Required
     captureMethod = NULL,
-    timestamp = NULL, # Required
+    timestamp = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
     filePath = NULL, # Required
     filePublic = FALSE, # Required
     fileName = NULL,
@@ -96,7 +96,7 @@ observations <-
     observationID = NULL, # Required
     deploymentID = NULL, # Required
     mediaID = NULL,
-    eventID = NA, # Necessary to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
+    eventID = NA, # If empty, set to NA to be able to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
     eventStart = NULL, # Required
     eventEnd = NULL, # Required
     observationLevel = NULL, # Required
@@ -118,6 +118,7 @@ observations <-
     classificationMethod = NULL,
     classifiedBy = NULL,
     classificationTimestamp = NULL,
+    classificationProbability = NULL,
     observationTags = .data$tags,
     observationComments = NULL,
     .keep = "none"
