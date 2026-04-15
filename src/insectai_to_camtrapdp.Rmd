@@ -10,6 +10,25 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Install packages
+
+Before beginning, you need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and the development version of `camtrapdp` from GitHub.
+
+```{r}
+# Install required packages if not already installed
+rlang::check_installed(c(
+  "here",
+  "dplyr",
+  "frictionless",
+  "camtrapdp"
+))
+```
+
+
+## Load libraries
+
+Next, load all the necessary libraries.
+
 ```{r}
 library(here)
 library(dplyr)
@@ -19,6 +38,8 @@ library(camtrapdp)
 
 # Import data
 
+Import the raw acoustic data from a CSV file. This file contains the source data that will be transformed into a Camtrap DP.
+
 ```{r}
 project_name <- "my_project"
 file_name <- "my_file.csv"
@@ -27,38 +48,41 @@ data <- read.csv(here::here("data", "raw", project_name, file_name))
 
 # Create resources
 
+Create the five resources (deployments, media, observations, detections, models) based on the raw data. You can use the code below as a starting point, but you will need to fill in the missing information (currently all set to `NA`).
+
 ## Create deployments resource
 
 ```{r}
 deployments <-
-  data %>% 
+  data |> 
   dplyr::mutate(
-    deploymentID = NULL, # Required
-    locationID = NULL,
-    locationName = NULL,
-    latitude = NULL, # Required
-    longitude = NULL, # Required
-    coordinateUncertainty = NULL,
-    deploymentStart = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
-    deploymentEnd = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
-    setupBy = NULL,
-    cameraID = NULL,
-    cameraModel = NULL,
-    cameraDelay = NULL,
-    cameraHeight = NULL,
-    cameraDepth = NULL,
-    cameraTilt = NULL,
-    cameraHeading = NULL,
-    detectionDistance = NULL,
-    timestampIssues = NULL,
-    baitUse = NULL,
-    featureType = NULL,
-    habitat = NULL,
-    deploymentGroups = NULL,
-    deploymentTags = NULL,
-    deploymentComments = NULL,
+    deploymentID = NA_character_, # Required
+    locationID = NA_character_,
+    locationName = NA_character_,
+    latitude = NA_real_, # Required
+    longitude = NA_real_, # Required
+    coordinateUncertainty = NA_integer_,
+    deploymentStart = NA_character_, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    deploymentEnd = NA_character_, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    setupBy = NA_character_,
+    cameraID = NA_character_,
+    cameraModel = NA_character_,
+    cameraDelay = NA_integer_,
+    cameraHeight = NA_real_,
+    cameraDepth = NA_real_,
+    cameraTilt = NA_integer_,
+    cameraHeading = NA_integer_,
+    detectionDistance = NA_real_,
+    timestampIssues = NA_character_,
+    attractantUse = NA,
+    atttractantTypr = NA_character_,
+    featureType = NA_character_,
+    habitat = NA_character_,
+    deploymentGroups = NA_character_,
+    deploymentTags = NA_character_,
+    deploymentComments = NA_character_,
     .keep = "none"
-  ) %>% 
+  ) |> 
   dplyr::arrange(deploymentID)
 ```
 
@@ -66,22 +90,22 @@ deployments <-
 
 ```{r}
 media <-
-  data %>% 
+  data |> 
   dplyr::mutate(
-    mediaID = NULL, # Required
-    deploymentID = NULL, # Required
-    captureMethod = NULL,
-    timestamp = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
-    filePath = NULL, # Required
-    filePublic = FALSE, # Required
-    fileName = NULL,
-    fileMediatype = NULL, # Required
-    exifData = NULL,
-    favorite = NULL,
-    mediaComments = NULL,
+    mediaID = NA_character_, # Required
+    deploymentID = NA_character_, # Required
+    captureMethod = NA_character_,
+    timestamp = NA_character_, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    filePath = NA_character_, # Required
+    filePublic = NA, # Required
+    fileName = NA_character_,
+    fileMediatype = NA_character_, # Required
+    exifData = NA_character_,
+    favorite = NA_character_,
+    mediaComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(mediaID) %>%
+  ) |> 
+  dplyr::arrange(mediaID) |>
   dplyr::distinct()
 ```
 
@@ -89,52 +113,147 @@ media <-
 
 ```{r}
 observations <-
-  data %>% 
+  data |> 
   dplyr::mutate(
-    observationID = NULL, # Required
-    deploymentID = NULL, # Required
-    mediaID = NULL,
+    observationID = NA_character_, # Required
+    deploymentID = NA_character_, # Required
+    mediaID = NA_character_,
     eventID = NA, # If empty, set to NA to be able to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
-    eventStart = NULL, # Required
-    eventEnd = NULL, # Required
-    observationLevel = NULL, # Required
-    observationType = NULL, # Required 
-    cameraSetupType = NULL,
-    scientificName = NULL,  # Required
-    count = NULL,
-    lifeStage = NULL,
-    sex = NULL,
-    behavior = NULL,
-    individualID = NULL,
-    individualPositionRadius = NULL,
-    individualPositionAngle = NULL,
-    individualSpeed = NULL,
-    bboxX = NULL,
-    bboxY = NULL,
-    bboxWidth = NULL,
-    bboxHeight = NULL,
-    classificationMethod = NULL,
-    classifiedBy = NULL,
-    classificationTimestamp = NULL,
-    classificationProbability = NULL,
-    observationTags = .data$tags,
-    observationComments = NULL,
+    eventStart = NA_character_, # Required
+    eventEnd = NA_character_, # Required
+    observationLevel = NA_character_, # Required
+    observationType = NA_character_, # Required 
+    cameraSetupType = NA_character_,
+    scientificName = NA_character_,  # Required
+    count = NA_integer_,
+    lifeStage = NA_character_,
+    sex = NA_character_,
+    behavior = NA_character_,
+    individualID = NA_character_,
+    individualPositionRadius = NA_real_,
+    individualPositionAngle = NA_real_,
+    individualSpeed = NA_real_,
+    bboxX = NA_real_,
+    bboxY = NA_real_,
+    bboxWidth = NA_real_,
+    bboxHeight = NA_real_,
+    classificationMethod = NA_character_,
+    classifiedBy = NA_character_,
+    classificationTimestamp = NA_character_,
+    classificationProbability = NA_real_,
+    observationTags = NA_character_,
+    observationComments = NA_character_,
     .keep = "none"
-  ) %>% 
+  ) |> 
   dplyr::arrange(observationID)
 ```
 
+## Create detections resource
+
+```{r}
+detections <-
+  data |> 
+  dplyr::mutate(
+    detectionID = NA_character_, # Required
+    detectionsourceID = NA_character_,
+    observationID = NA_character_,
+    deploymentID = NA_character_, # Required
+    mediaID = NA_character_,
+    eventID = NA,
+    eventStart = NA_character_, # Required
+    eventEnd = NA_character_, # Required
+    detectionLevel = NA_character_, # Required
+    detectionType = NA_character_, # Required 
+    cameraSetupType = NA_character_,
+    scientificName = NA_character_,  # Required
+    count = NA_integer_,
+    lifeStage = NA_character_,
+    sex = NA_character_,
+    behavior = NA_character_,
+    individualID = NA_character_,
+    individualPositionRadius = NA_real_,
+    individualPositionAngle = NA_real_,
+    individualSpeed = NA_real_,
+    bboxX = NA_real_,
+    bboxY = NA_real_,
+    bboxWidth = NA_real_,
+    bboxHeight = NA_real_,
+    classificationMethod = NA_character_,
+    classifiedBy = NA_character_,
+    modelID = NA_character_, 
+    classificationTimestamp = NA_character_,
+    classificationProbability = NA_real_,
+    detectionsTags = NA_character_,
+    detectionComments = NA_character_,
+    .keep = "none"
+  ) |> 
+  dplyr::arrange(detectionID)
+```
+
+## Create models resource
+
+```{r}
+models <-
+  data |>
+  dplyr::mutate(
+    modelID = NA_character_, # Required
+    modelName = NA_character_, 
+    modelVersion = NA_character_,
+    modelDescription = NA_character_,
+    modelPathRpository = NA_character_, # Required
+    publicationDate = NA_character_,
+    modelTask = NA_character_, # format": "%Y-%m-%dT%H:%M:%S%z
+    .keep = "none"
+  ) |>
+  dplyr::arrange(modelID)
+```
+
+
 # Create data package
+
+A Camtrap DP is a Frictionless Data Package that consists of
+- datapackage.json: Metadata about the data package and camera trap project.
+- deployments.csv: Table with camera trap placements (deployments).
+- media.csv: Table with media files recorded during deployments.
+- observations.csv: Table with observations derived from the media files.
+
+For the insectai adaptation, two more resources are added:
+- detecions.csv
+- models.csv
+
+Start with compiling the five resources into a frictionless data package, adding metadata such as schema files and project information.
 
 ```{r}
 insectai <-
-  frictionless::create_package() %>%
-  add_resource(resource_name = "deployments", data = deployments) %>%
-  add_resource(resource_name = "media", data = media) %>%
-  add_resource(resource_name = "observations", data = observations) %>%
+  frictionless::create_package() |>
+  frictionless::add_resource(
+    resource_name = "deployments",
+    data = deployments,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/deployments-table-schema-insectai.json"
+    ) |>
+  frictionless::add_resource(
+    resource_name = "media",
+    data = media,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/media-table-schema-insectai.json"
+    ) |>
+  frictionless::add_resource(
+    resource_name = "observations",
+    data = observations,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/observations-table-schema-insectai.json"
+    ) |>
+  frictionless::add_resource(
+    resource_name = "detections",
+    data = detections,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/detections-table-schema-insectai.json"
+    )|>
+  frictionless::add_resource(
+    resource_name = "models",
+    data = models,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/models-table-schema-insectai.json"
+    ) |>
   append(c(
     name = "camtrap-dp-insectai-example-dataset", # Required
-    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
+    profile = "https://github.com/camera-traps/insectai/blob/main/camtrap-dp/camtrap-dp-profile-insectai.json", # Required
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     title = NULL,
@@ -151,9 +270,13 @@ insectai <-
     taxonomic = NULL, # Required, but keep this empty, this comes later
     relatedIdentifiers = NULL,
     references = NULL
-  )) %>%
+  )) |>
   frictionless::create_package()
+```
 
+Then add contributor information, licenses, and project metadata to complete the package description.
+
+```{r}
 insectai$contributors <- list( # Required
   list(
     title = NULL,
@@ -182,47 +305,72 @@ insectai$project <- list( # Required
   description = NULL,
   protocolType = NULL, # Required
   samplingDesign = NULL, # Required
-  path = NULL,
+  # path = NULL,
   captureMethod = NULL, # Required
   individualAnimals = NULL, # Required
   observationLevel = NULL # Required
 )
 ```
 
-## Create taxonomy
+## Add taxonomic coverage
+
+Create a function to format taxonomy rows for inclusion in the metadata, then apply it to the data.
+The code is to simply add all scientific names.
+You can also add the whole taxonomy and vernacular names to the metadata, see https://camtrap-dp.tdwg.org/metadata/#taxonomic.
 
 ```{r}
+taxonomyy <- data |> 
+  dplyr::select(scientificName) |>
+  dplyr::distinct()
+
 map_taxonomy <- function(taxonomy) {
   list(
-    scientificName = taxonomy$scientificName, # Adapt this!
-    vernacularNames = list(
-      eng = taxonomy$EnglishName # Adapt this!
-      )
+    scientificName = taxonomy$scientificName,
+    taxonRank = "species"
   )
 }
 ```
 
 ```{r}
-taxonomy_list <- apply(taxonomy, 1, as.list) # First create taxonomy df, then adapt this!
+taxonomy_list <- apply(taxonomy, 1, as.list)
 insectai$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 ```
 
+Or you can also simplify it by only providing higher taxonomic levels, eg:
+
+```{r}
+taxonomic_coverage <-
+  data.frame(
+    scientificName = "Insecta",
+    taxonRank = "class"
+    )
+insectai$taxonomic <- taxonomic_coverage
+```
+
 # Write Data Package
+
+## Create frictionless data package
+
+Save the frictionless data package, including all resources and metadata, to the designated interim directory.
 
 ```{r}
 frictionless::write_package(insectai, here::here("data", "interim", project_name))
 ```
 
-# Read with camtrapdp
+## Read with camtrapdp
 
-This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
+Now, read the Camtrap DP data package to automatically update the spatial, temporal, and taxonomic coverage fields in the metadata based on the resources.
 
 ```{r}
 insectai_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", project_name, "datapackage.json"))
 ```
 
-# Write Camtrap DP
+## Write Camtrap DP
+
+Finally, write the completed Camera Trap Data Package to the processed directory.
 
 ```{r}
 camtrapdp::write_camtrapdp(insectai_dp, here::here("data", "processed", project_name))
 ```
+
+This final DP can be validated against the specifications of Camtrap DP (and Frictionless Data Package). See https://camtrap-dp.tdwg.org/#validation.

@@ -30,7 +30,7 @@
       "skos:broadMatch": "http://rs.tdwg.org/dwc/terms/occurrenceID",
       "type": "string",
       "constraints": {
-        "required": true,
+        "required": false,
         "unique": true
       },
       "example": "obs1"
