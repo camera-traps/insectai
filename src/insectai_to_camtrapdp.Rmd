@@ -10,6 +10,25 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Install packages
+
+Before beginning, you need to ensure that all required R packages are installed. This includes packages for data handling, working with frictionless data, and the development version of `camtrapdp` from GitHub.
+
+```{r}
+# Install required packages if not already installed
+rlang::check_installed(c(
+  "here",
+  "dplyr",
+  "frictionless",
+  "camtrapdp"
+))
+```
+
+
+## Load libraries
+
+Next, load all the necessary libraries.
+
 ```{r}
 library(here)
 library(dplyr)
@@ -19,6 +38,8 @@ library(camtrapdp)
 
 # Import data
 
+Import the raw acoustic data from a CSV file. This file contains the source data that will be transformed into a Camtrap DP.
+
 ```{r}
 project_name <- "my_project"
 file_name <- "my_file.csv"
@@ -26,6 +47,8 @@ data <- read.csv(here::here("data", "raw", project_name, file_name))
 ```
 
 # Create resources
+
+Create the five resources (deployments, media, observations, detections, models) based on the raw data. You can use the code below as a starting point, but you will need to fill in the missing information (currently all set to `NA`).
 
 ## Create deployments resource
 
@@ -188,6 +211,18 @@ models <-
 
 # Create data package
 
+A Camtrap DP is a Frictionless Data Package that consists of
+- datapackage.json: Metadata about the data package and camera trap project.
+- deployments.csv: Table with camera trap placements (deployments).
+- media.csv: Table with media files recorded during deployments.
+- observations.csv: Table with observations derived from the media files.
+
+For the insectai adaptation, two more resources are added:
+- detecions.csv
+- models.csv
+
+Start with compiling the five resources into a frictionless data package, adding metadata such as schema files and project information.
+
 ```{r}
 insectai <-
   frictionless::create_package() |>
@@ -217,7 +252,11 @@ insectai <-
     references = NULL
   )) |>
   frictionless::create_package()
+```
 
+Then add contributor information, licenses, and project metadata to complete the package description.
+
+```{r}
 insectai$contributors <- list( # Required
   list(
     title = NULL,
@@ -255,9 +294,9 @@ insectai$project <- list( # Required
 
 ## Add taxonomic coverage
 
-Here is code to simply add all scientific names.
+Create a function to format taxonomy rows for inclusion in the metadata, then apply it to the data.
+The code is to simply add all scientific names.
 You can also add the whole taxonomy and vernacular names to the metadata, see https://camtrap-dp.tdwg.org/metadata/#taxonomic.
-
 
 ```{r}
 taxonomyy <- data |> 
@@ -277,7 +316,8 @@ taxonomy_list <- apply(taxonomy, 1, as.list)
 insectai$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
 ```
 
-Or you can it also simplify it by only providing higher taxonomic levels, eg:
+Or you can also simplify it by only providing higher taxonomic levels, eg:
+
 ```{r}
 taxonomic_coverage <-
   data.frame(
@@ -289,20 +329,28 @@ insectai$taxonomic <- taxonomic_coverage
 
 # Write Data Package
 
+## Create frictionless data package
+
+Save the frictionless data package, including all resources and metadata, to the designated interim directory.
+
 ```{r}
 frictionless::write_package(insectai, here::here("data", "interim", project_name))
 ```
 
-# Read with camtrapdp
+## Read with camtrapdp
 
-This automatically updates the spatial, temporal and taxonomic coverage in the metadata, based on the data.
+Now, read the Camtrap DP data package to automatically update the spatial, temporal, and taxonomic coverage fields in the metadata based on the resources.
 
 ```{r}
 insectai_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", project_name, "datapackage.json"))
 ```
 
-# Write Camtrap DP
+## Write Camtrap DP
+
+Finally, we write the completed Camera Trap Data Package to the processed directory.
 
 ```{r}
 camtrapdp::write_camtrapdp(insectai_dp, here::here("data", "processed", project_name))
 ```
+
+This final DP can be validated against the specifications of Camtrap DP (and Frictionless Data Package). See https://camtrap-dp.tdwg.org/#validation.
