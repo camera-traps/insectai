@@ -51,7 +51,7 @@ deployments <-
     cameraHeading = NA_integer_,
     detectionDistance = NA_real_,
     timestampIssues = NA_character_,
-    baitUse = NA_character_,
+    attractantUse = NA,
     featureType = NA_character_,
     habitat = NA_character_,
     deploymentGroups = NA_character_,
