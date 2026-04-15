@@ -118,7 +118,7 @@ observations <-
     classifiedBy = NA_character_,
     classificationTimestamp = NA_character_,
     classificationProbability = NA_real_,
-    observationTags = .data$tags,
+    observationTags = NA_character_,
     observationComments = NA_character_,
     .keep = "none"
   ) |> 
