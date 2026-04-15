@@ -191,11 +191,11 @@ models <-
 ```{r}
 insectai <-
   frictionless::create_package() |>
-  add_resource(resource_name = "deployments", data = deployments) |>
-  add_resource(resource_name = "media", data = media) |>
-  add_resource(resource_name = "observations", data = observations) |>
-  add_resource(resource_name = "detections", data = detections) |>
-  add_resource(resource_name = "models", data = models) |>
+  frictionless::add_resource(resource_name = "deployments", data = deployments) |>
+  frictionless::add_resource(resource_name = "media", data = media) |>
+  frictionless::add_resource(resource_name = "observations", data = observations) |>
+  frictionless::add_resource(resource_name = "detections", data = detections) |>
+  frictionless::add_resource(resource_name = "models", data = models) |>
   append(c(
     name = "camtrap-dp-insectai-example-dataset", # Required
     profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
