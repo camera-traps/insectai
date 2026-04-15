@@ -31,7 +31,7 @@ data <- read.csv(here::here("data", "raw", project_name, file_name))
 
 ```{r}
 deployments <-
-  data %>% 
+  data |> 
   dplyr::mutate(
     deploymentID = NA_character_, # Required
     locationID = NA_character_,
@@ -58,7 +58,7 @@ deployments <-
     deploymentTags = NA_character_,
     deploymentComments = NA_character_,
     .keep = "none"
-  ) %>% 
+  ) |> 
   dplyr::arrange(deploymentID)
 ```
 
@@ -66,7 +66,7 @@ deployments <-
 
 ```{r}
 media <-
-  data %>% 
+  data |> 
   dplyr::mutate(
     mediaID = NA_character_, # Required
     deploymentID = NA_character_, # Required
@@ -80,8 +80,8 @@ media <-
     favorite = NA_character_,
     mediaComments = NA_character_,
     .keep = "none"
-  ) %>% 
-  dplyr::arrange(mediaID) %>%
+  ) |> 
+  dplyr::arrange(mediaID) |>
   dplyr::distinct()
 ```
 
@@ -89,7 +89,7 @@ media <-
 
 ```{r}
 observations <-
-  data %>% 
+  data |> 
   dplyr::mutate(
     observationID = NA_character_, # Required
     deploymentID = NA_character_, # Required
@@ -120,7 +120,7 @@ observations <-
     observationTags = .data$tags,
     observationComments = NA_character_,
     .keep = "none"
-  ) %>% 
+  ) |> 
   dplyr::arrange(observationID)
 ```
 
@@ -128,10 +128,10 @@ observations <-
 
 ```{r}
 insectai <-
-  frictionless::create_package() %>%
-  add_resource(resource_name = "deployments", data = deployments) %>%
-  add_resource(resource_name = "media", data = media) %>%
-  add_resource(resource_name = "observations", data = observations) %>%
+  frictionless::create_package() |>
+  add_resource(resource_name = "deployments", data = deployments) |>
+  add_resource(resource_name = "media", data = media) |>
+  add_resource(resource_name = "observations", data = observations) |>
   append(c(
     name = "camtrap-dp-insectai-example-dataset", # Required
     profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
@@ -151,7 +151,7 @@ insectai <-
     taxonomic = NULL, # Required, but keep this empty, this comes later
     relatedIdentifiers = NULL,
     references = NULL
-  )) %>%
+  )) |>
   frictionless::create_package()
 
 insectai$contributors <- list( # Required
