@@ -206,8 +206,8 @@
       "example": false
     },
     {
-      "name": "baitUse",
-      "description": "`true` if bait was used for the deployment. More information can be provided in `tags` or `comments`.",
+      "name": "attractantUse",
+      "description": "`true` if attractant was used for the deployment. More information can be provided in `tags` or `comments`.",
       "type": "boolean",
       "constraints": {
         "required": false
