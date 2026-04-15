@@ -33,30 +33,30 @@ data <- read.csv(here::here("data", "raw", project_name, file_name))
 deployments <-
   data %>% 
   dplyr::mutate(
-    deploymentID = NULL, # Required
-    locationID = NULL,
-    locationName = NULL,
-    latitude = NULL, # Required
-    longitude = NULL, # Required
-    coordinateUncertainty = NULL,
-    deploymentStart = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
-    deploymentEnd = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
-    setupBy = NULL,
-    cameraID = NULL,
-    cameraModel = NULL,
-    cameraDelay = NULL,
-    cameraHeight = NULL,
-    cameraDepth = NULL,
-    cameraTilt = NULL,
-    cameraHeading = NULL,
-    detectionDistance = NULL,
-    timestampIssues = NULL,
-    baitUse = NULL,
-    featureType = NULL,
-    habitat = NULL,
-    deploymentGroups = NULL,
-    deploymentTags = NULL,
-    deploymentComments = NULL,
+    deploymentID = NA_character_, # Required
+    locationID = NA_character_,
+    locationName = NA_character_,
+    latitude = NA_real_, # Required
+    longitude = NA_real_, # Required
+    coordinateUncertainty = NA_integer_,
+    deploymentStart = NA_character_, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    deploymentEnd = NA_character_, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    setupBy = NA_character_,
+    cameraID = NA_character_,
+    cameraModel = NA_character_,
+    cameraDelay = NA_integer_,
+    cameraHeight = NA_real_,
+    cameraDepth = NA_real_,
+    cameraTilt = NA_integer_,
+    cameraHeading = NA_integer_,
+    detectionDistance = NA_real_,
+    timestampIssues = NA_character_,
+    baitUse = NA_character_,
+    featureType = NA_character_,
+    habitat = NA_character_,
+    deploymentGroups = NA_character_,
+    deploymentTags = NA_character_,
+    deploymentComments = NA_character_,
     .keep = "none"
   ) %>% 
   dplyr::arrange(deploymentID)
@@ -68,17 +68,17 @@ deployments <-
 media <-
   data %>% 
   dplyr::mutate(
-    mediaID = NULL, # Required
-    deploymentID = NULL, # Required
-    captureMethod = NULL,
-    timestamp = NULL, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
-    filePath = NULL, # Required
-    filePublic = FALSE, # Required
-    fileName = NULL,
-    fileMediatype = NULL, # Required
-    exifData = NULL,
-    favorite = NULL,
-    mediaComments = NULL,
+    mediaID = NA_character_, # Required
+    deploymentID = NA_character_, # Required
+    captureMethod = NA_character_,
+    timestamp = NA_character_, # Required | YYYY-MM-DDThh:mm:ssZ or YYYY-MM-DDThh:mm:ss±hh:mm
+    filePath = NA_character_, # Required
+    filePublic = NA, # Required
+    fileName = NA_character_,
+    fileMediatype = NA_character_, # Required
+    exifData = NA_character_,
+    favorite = NA_character_,
+    mediaComments = NA_character_,
     .keep = "none"
   ) %>% 
   dplyr::arrange(mediaID) %>%
@@ -91,34 +91,34 @@ media <-
 observations <-
   data %>% 
   dplyr::mutate(
-    observationID = NULL, # Required
-    deploymentID = NULL, # Required
-    mediaID = NULL,
+    observationID = NA_character_, # Required
+    deploymentID = NA_character_, # Required
+    mediaID = NA_character_,
     eventID = NA, # If empty, set to NA to be able to use read_camtrapdp(), see https://github.com/inbo/camtrapdp/issues/162
-    eventStart = NULL, # Required
-    eventEnd = NULL, # Required
-    observationLevel = NULL, # Required
-    observationType = NULL, # Required 
-    cameraSetupType = NULL,
-    scientificName = NULL,  # Required
-    count = NULL,
-    lifeStage = NULL,
-    sex = NULL,
-    behavior = NULL,
-    individualID = NULL,
-    individualPositionRadius = NULL,
-    individualPositionAngle = NULL,
-    individualSpeed = NULL,
-    bboxX = NULL,
-    bboxY = NULL,
-    bboxWidth = NULL,
-    bboxHeight = NULL,
-    classificationMethod = NULL,
-    classifiedBy = NULL,
-    classificationTimestamp = NULL,
-    classificationProbability = NULL,
+    eventStart = NA_character_, # Required
+    eventEnd = NA_character_, # Required
+    observationLevel = NA_character_, # Required
+    observationType = NA_character_, # Required 
+    cameraSetupType = NA_character_,
+    scientificName = NA_character_,  # Required
+    count = NA_integer_,
+    lifeStage = NA_character_,
+    sex = NA_character_,
+    behavior = NA_character_,
+    individualID = NA_character_,
+    individualPositionRadius = NA_real_,
+    individualPositionAngle = NA_real_,
+    individualSpeed = NA_real_,
+    bboxX = NA_real_,
+    bboxY = NA_real_,
+    bboxWidth = NA_real_,
+    bboxHeight = NA_real_,
+    classificationMethod = NA_character_,
+    classifiedBy = NA_character_,
+    classificationTimestamp = NA_character_,
+    classificationProbability = NA_real_,
     observationTags = .data$tags,
-    observationComments = NULL,
+    observationComments = NA_character_,
     .keep = "none"
   ) %>% 
   dplyr::arrange(observationID)
@@ -182,7 +182,7 @@ insectai$project <- list( # Required
   description = NULL,
   protocolType = NULL, # Required
   samplingDesign = NULL, # Required
-  path = NULL,
+  # path = NULL,
   captureMethod = NULL, # Required
   individualAnimals = NULL, # Required
   observationLevel = NULL # Required
