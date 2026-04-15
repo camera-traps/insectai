@@ -52,6 +52,7 @@ deployments <-
     detectionDistance = NA_real_,
     timestampIssues = NA_character_,
     attractantUse = NA,
+    atttractantTypr = NA_character_,
     featureType = NA_character_,
     habitat = NA_character_,
     deploymentGroups = NA_character_,
