@@ -233,22 +233,38 @@ insectai$project <- list( # Required
 )
 ```
 
-## Create taxonomy
+## Add taxonomic coverage
+
+Here is code to simply add all scientific names.
+You can also add the whole taxonomy and vernacular names to the metadata, see https://camtrap-dp.tdwg.org/metadata/#taxonomic.
+
 
 ```{r}
+taxonomyy <- data |> 
+  dplyr::select(scientificName) |>
+  dplyr::distinct()
+
 map_taxonomy <- function(taxonomy) {
   list(
-    scientificName = taxonomy$scientificName, # Adapt this!
-    vernacularNames = list(
-      eng = taxonomy$EnglishName # Adapt this!
-      )
+    scientificName = taxonomy$scientificName,
+    taxonRank = "species"
   )
 }
 ```
 
 ```{r}
-taxonomy_list <- apply(taxonomy, 1, as.list) # First create taxonomy df, then adapt this!
+taxonomy_list <- apply(taxonomy, 1, as.list)
 insectai$taxonomic <- purrr::map(taxonomy_list, map_taxonomy)
+```
+
+Or you can it also simplify it by only providing higher taxonomic levels, eg:
+```{r}
+taxonomic_coverage <-
+  data.frame(
+    scientificName = "Insecta",
+    taxonRank = "class"
+    )
+insectai$taxonomic <- taxonomic_coverage
 ```
 
 # Write Data Package
