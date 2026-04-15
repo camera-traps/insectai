@@ -61,7 +61,13 @@
       "description": "Problem type (e.g. segmentation, classification, object detection, counting) for which this algorithm can be used .",
       "type": "string",
       "constraints": {
-        "required": false
+        "required": false,
+        "enum": [
+          "classification",
+          "objectDetection",
+          "segmentation",
+          "counting"
+        ]
       }
     }
   ],
