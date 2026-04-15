@@ -226,14 +226,34 @@ Start with compiling the five resources into a frictionless data package, adding
 ```{r}
 insectai <-
   frictionless::create_package() |>
-  frictionless::add_resource(resource_name = "deployments", data = deployments) |>
-  frictionless::add_resource(resource_name = "media", data = media) |>
-  frictionless::add_resource(resource_name = "observations", data = observations) |>
-  frictionless::add_resource(resource_name = "detections", data = detections) |>
-  frictionless::add_resource(resource_name = "models", data = models) |>
+  frictionless::add_resource(
+    resource_name = "deployments",
+    data = deployments,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/deployments-table-schema-insectai.json"
+    ) |>
+  frictionless::add_resource(
+    resource_name = "media",
+    data = media,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/media-table-schema-insectai.json"
+    ) |>
+  frictionless::add_resource(
+    resource_name = "observations",
+    data = observations,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/observations-table-schema-insectai.json"
+    ) |>
+  frictionless::add_resource(
+    resource_name = "detections",
+    data = detections,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/detections-table-schema-insectai.json"
+    )|>
+  frictionless::add_resource(
+    resource_name = "models",
+    data = models,
+    schema = "https://raw.githubusercontent.com/camera-traps/insectai/refs/heads/main/camtrap-dp/models-table-schema-insectai.json"
+    ) |>
   append(c(
     name = "camtrap-dp-insectai-example-dataset", # Required
-    profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
+    profile = "https://github.com/camera-traps/insectai/blob/main/camtrap-dp/camtrap-dp-profile-insectai.json", # Required
     id = NULL,
     created = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"), # Required
     title = NULL,
@@ -347,7 +367,7 @@ insectai_dp <- camtrapdp::read_camtrapdp(here::here("data", "interim", project_n
 
 ## Write Camtrap DP
 
-Finally, we write the completed Camera Trap Data Package to the processed directory.
+Finally, write the completed Camera Trap Data Package to the processed directory.
 
 ```{r}
 camtrapdp::write_camtrapdp(insectai_dp, here::here("data", "processed", project_name))
