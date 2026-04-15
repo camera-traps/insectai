@@ -167,6 +167,25 @@ detections <-
   dplyr::arrange(detectionID)
 ```
 
+## Create models resource
+
+```{r}
+models <-
+  data |>
+  dplyr::mutate(
+    modelID = NA_character_, # Required
+    modelName = NA_character_, 
+    modelVersion = NA_character_,
+    modelDescription = NA_character_,
+    modelPathRpository = NA_character_, # Required
+    publicationDate = NA_character_,
+    modelTask = NA_character_, # format": "%Y-%m-%dT%H:%M:%S%z
+    .keep = "none"
+  ) |>
+  dplyr::arrange(modelID)
+```
+
+
 # Create data package
 
 ```{r}
@@ -176,6 +195,7 @@ insectai <-
   add_resource(resource_name = "media", data = media) |>
   add_resource(resource_name = "observations", data = observations) |>
   add_resource(resource_name = "detections", data = detections) |>
+  add_resource(resource_name = "models", data = models) |>
   append(c(
     name = "camtrap-dp-insectai-example-dataset", # Required
     profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
