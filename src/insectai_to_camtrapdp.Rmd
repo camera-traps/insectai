@@ -125,6 +125,48 @@ observations <-
   dplyr::arrange(observationID)
 ```
 
+## Create detections resource
+
+```{r}
+detections <-
+  data |> 
+  dplyr::mutate(
+    detectionID = NA_character_, # Required
+    detectionsourceID = NA_character_,
+    observationID = NA_character_,
+    deploymentID = NA_character_, # Required
+    mediaID = NA_character_,
+    eventID = NA,
+    eventStart = NA_character_, # Required
+    eventEnd = NA_character_, # Required
+    detectionLevel = NA_character_, # Required
+    detectionType = NA_character_, # Required 
+    cameraSetupType = NA_character_,
+    scientificName = NA_character_,  # Required
+    count = NA_integer_,
+    lifeStage = NA_character_,
+    sex = NA_character_,
+    behavior = NA_character_,
+    individualID = NA_character_,
+    individualPositionRadius = NA_real_,
+    individualPositionAngle = NA_real_,
+    individualSpeed = NA_real_,
+    bboxX = NA_real_,
+    bboxY = NA_real_,
+    bboxWidth = NA_real_,
+    bboxHeight = NA_real_,
+    classificationMethod = NA_character_,
+    classifiedBy = NA_character_,
+    modelID = NA_character_, 
+    classificationTimestamp = NA_character_,
+    classificationProbability = NA_real_,
+    detectionsTags = NA_character_,
+    detectionComments = NA_character_,
+    .keep = "none"
+  ) |> 
+  dplyr::arrange(detectionID)
+```
+
 # Create data package
 
 ```{r}
@@ -133,6 +175,7 @@ insectai <-
   add_resource(resource_name = "deployments", data = deployments) |>
   add_resource(resource_name = "media", data = media) |>
   add_resource(resource_name = "observations", data = observations) |>
+  add_resource(resource_name = "detections", data = detections) |>
   append(c(
     name = "camtrap-dp-insectai-example-dataset", # Required
     profile = "https://raw.githubusercontent.com/tdwg/camtrap-dp/refs/heads/insectai/camtrap-dp-profile.json", # Required
