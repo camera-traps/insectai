@@ -207,12 +207,26 @@
     },
     {
       "name": "attractantUse",
-      "description": "`true` if attractant was used for the deployment. More information can be provided in `tags` or `comments`.",
+      "description": "`true` if attractant was used for the deployment.",
       "type": "boolean",
       "constraints": {
         "required": false
       },
       "example": true
+    },
+    {
+      "name": "attractantType",
+      "description": "Type of attractant that was used in case `baitUse = true`. These can be either lures (e.g. scent) or light or sound. ",
+      "type": "string",
+      "constraints": {
+        "required": false,
+        "enum": [
+          "lure",
+          "light",
+          "sound"
+        ]
+      },
+      "example": "light"
     },
     {
       "name": "featureType",
