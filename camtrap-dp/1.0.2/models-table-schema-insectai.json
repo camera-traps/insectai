@@ -1,0 +1,72 @@
+{
+  "name": "models",
+  "title": "Models",
+  "description": "Table with models.",
+  "fields": [
+    {
+      "name": "modelID",
+      "description": "Unique algorithm identifier.",
+      "skos:broadMatch": "http://purl.org/dc/terms/identifier",
+      "type": "string",
+      "constraints": {
+        "required": true,
+        "unique": true
+      },
+      "example": "mod1"
+    },
+    {
+      "name": "modelName",
+      "description": "Algorithm name - human readable.",
+      "type": "string",
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "modelVersion",
+      "description": "Algorithm version.",
+      "type": "string",
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "modelDescription",
+      "description": "Algorithm description.",
+      "type": "string",
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "modelPathRepository",
+      "description": "Link to algorithm repository / API.",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "publicationDate",
+      "description": "Creation or publication date of algorithm.",
+      "type": "datetime",
+      "format": "%Y-%m-%dT%H:%M:%S%z",
+      "constraints": {
+        "required": false
+      },
+      "example": "2025-03-12T10:20:26Z"
+    },
+    {
+      "name": "modelTask",
+      "description": "Problem type (e.g. segmentation, classification, object detection, counting) for which this algorithm can be used .",
+      "type": "string",
+      "constraints": {
+        "required": false
+      }
+    }
+  ],
+  "missingValues": [
+    "", "NA", "NaN", "nan"
+  ],
+  "primaryKey": "modelID"
+}
